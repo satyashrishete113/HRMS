@@ -76,7 +76,7 @@ public class EmployeeController {
 		
 		service.addEmp(e);
 		session.setAttribute("msg","Employee Added Successfully");
-		return "redirect:/";
+		return "redirect:/home";
 	}
 	
 	@GetMapping("/edit/{id}")
@@ -92,7 +92,7 @@ public class EmployeeController {
 	public String updateEmp(@ModelAttribute Employee e, HttpSession session) {
 		service.addEmp(e);
 		session.setAttribute("msg", "Employee Data Updated Successfully");
-		return "redirect:/";
+		return "redirect:/home";
 	}
 	
 	@GetMapping("/delete/{id}")
@@ -100,7 +100,7 @@ public class EmployeeController {
 		
 		service.deleteEmp(id);
 		session.setAttribute("msg", "Employee Data Deleted Successfully");
-		return "redirect:/";
+		return "redirect:/home";
 		
 	}
 }
