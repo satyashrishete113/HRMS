@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.company.employees.entity.Admin;
 import com.company.employees.entity.Employee;
+import com.company.employees.service.AdminService;
 import com.company.employees.service.EmployeeService;
 
 @Controller
@@ -24,6 +26,9 @@ public class EmployeeController {
 	
 	@Autowired
 	private EmployeeService service;
+	
+	@Autowired
+	private AdminService adminService;
 	
 	@GetMapping("/")
 	public String login(Model m) {		
@@ -33,9 +38,21 @@ public class EmployeeController {
 //	@GetMapping("/validate")
 	@RequestMapping(value = "/validate", method = RequestMethod.POST)
 	public String validate(Model m, @RequestParam String email, @RequestParam String password) {
-		if (email.equals("satyashrishete@gmail.com") && password.equals("mypass")) {
-			return "index";
+		List<Admin> admins = adminService.getAllAdmin();
+		for (Admin a : admins) {
+			if (a.getEmail().equals(email) && a.getPassword().equals(password)) {
+				List<Employee> emp=service.getAllEmp();
+				m.addAttribute("emp", emp);
+
+				return "index";
+			}
 		}
+//		if (email.equals("satyashrishete@gmail.com") && password.equals("mypass")) {
+//			List<Employee> emp=service.getAllEmp();
+//			m.addAttribute("emp", emp);
+//
+//			return "index";
+//		}
 		m.addAttribute("error", "Invalid credentials.");
 		return "login";
 	}
